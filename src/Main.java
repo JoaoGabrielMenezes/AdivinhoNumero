@@ -20,41 +20,38 @@ public class Main{
         init();
     }
 
-    public static void init(){
+    public static void init() throws InterruptedException, IOException{
        System.out.println("+-----------------Bem-Vindo-----------------+\n");
        System.out.print("\tPressione ENTER para começar\n");
        sc = new Scanner (System.in);
        sc.nextLine ();
+       carregar();
        aleatorio();
     }
 
-    public static void aleatorio(){
+    public static void carregar() throws InterruptedException, IOException{
+        String anim= "|/-\\";
+        for (int i = 0 ; i < 101 ; i++) {
+            String data = "\r" + anim.charAt(i % anim.length()) + " " + i;
+            System.out.write(data.getBytes());
+            Thread.sleep(65);
+        }
+    }
 
-        String maior="#";
-        System.out.print('[');
-		for(int i = 0; i <43; i++)
-		{   
-			System.out.print(maior);
-            try {
-                Thread.sleep(100);
-            }catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-		}    
-        System.out.print(']');
+    public static void aleatorio() throws InterruptedException, IOException{
 
-     System.out.println(ANSI_PURPLE+"\n\nTente adivinhar o numero em que estou pensando?\n"+ANSI_RESET);
-     random = new Random();
-     numero_aleatorio = random.nextInt(101);
+        System.out.println(ANSI_PURPLE+"\n\nTente adivinhar o numero em que estou pensando?\n"+ANSI_RESET);
+        random = new Random();
+        numero_aleatorio = random.nextInt(101);
 
      while(escolha != numero_aleatorio){
          tentativas++;
          escolha = sc.nextInt();
         if(escolha < numero_aleatorio){
-            System.out.println("O numero é maior q "+escolha);
+            System.out.println("O numero é maior que "+escolha);
          }
          else if(escolha > numero_aleatorio){
-            System.out.println("O numero é menor q "+escolha);
+            System.out.println("O numero é menor que "+escolha);
          }
          else{
              System.out.println(ANSI_GREEN+"\nParabéns 🎉"+ANSI_RESET+"\nSeu numero de tentativas foi: "+ANSI_GREEN+tentativas+ANSI_RESET);
@@ -64,6 +61,7 @@ public class Main{
              {
                 try {
                     //temporizador de execucao da tarefa
+                    Thread.sleep(1000);
                     new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -88,4 +86,5 @@ public class Main{
        }
      }
    }
+
 }
