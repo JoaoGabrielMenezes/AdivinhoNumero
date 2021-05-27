@@ -14,13 +14,19 @@ public class Main{
     private static Scanner sc;
     private static Random random;
     public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
     public static void main(String[] args) throws Exception {
-        init();
+        _init_();
     }
 
-    public static void init() throws InterruptedException, IOException{
+    public static void _init_() throws InterruptedException, IOException{
        System.out.println("+-----------------Bem-Vindo-----------------+\n");
        System.out.print("\tPressione ENTER para começar\n");
        sc = new Scanner (System.in);
@@ -40,51 +46,45 @@ public class Main{
 
     public static void aleatorio() throws InterruptedException, IOException{
 
-        System.out.println(ANSI_PURPLE+"\n\nTente adivinhar o numero em que estou pensando?\n"+ANSI_RESET);
-        random = new Random();
-        numero_aleatorio = random.nextInt(101);
-
-     while(escolha != numero_aleatorio){
-         tentativas++;
-         escolha = sc.nextInt();
-        if(escolha < numero_aleatorio){
-            System.out.println("O numero é maior que "+escolha);
-         }
-         else if(escolha > numero_aleatorio){
-            System.out.println("O numero é menor que "+escolha);
-         }
-         else{
-             System.out.println(ANSI_GREEN+"\nParabéns 🎉"+ANSI_RESET+"\nSeu numero de tentativas foi: "+ANSI_GREEN+tentativas+ANSI_RESET);
-             System.out.println("Gostaria de jogar novamente? (s/n)");
-             playAgain = sc.next();
-             if(playAgain.equals("s"))
-             {
-                try {
+        try {
+            System.out.println(ANSI_PURPLE+"\n\nTente adivinhar o numero em que estou pensando?\n"+ANSI_RESET);
+            random = new Random();
+            numero_aleatorio = random.nextInt(101);
+    
+         while(escolha != numero_aleatorio){
+             tentativas++;
+             escolha = sc.nextInt();
+            if(escolha < numero_aleatorio){
+                System.out.println("O numero é maior que -> "+ANSI_YELLOW+escolha+ANSI_RESET);
+             }
+             else if(escolha > numero_aleatorio){
+                System.out.println("O numero é menor que -> "+ANSI_YELLOW+escolha+ANSI_RESET);
+             }
+             else{
+                 System.out.println(ANSI_GREEN+"\nParabéns 🎉"+ANSI_RESET+"\nSeu numero de tentativas foi: "+ANSI_GREEN+tentativas+ANSI_RESET);
+                 System.out.println("Gostaria de jogar novamente? (s/n)");
+                 playAgain = sc.next();
+                 if(playAgain.equals("s"))
+                 {
                     //temporizador de execucao da tarefa
                     Thread.sleep(1000);
                     new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                init();
-             }else{
-                System.out.println("Obrigado por jogar");                
-                try {
+                    _init_();
+                 }else{
+                    System.out.println("Obrigado por jogar");                
                     //temporizador de execucao da tarefa
                     Thread.sleep(1000);
                     //limpar o terminal
                     new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                 System.exit(0);
-          }
-       }
-     }
+                    System.exit(0);
+              }
+           }
+         }
+        } catch (Exception e) {  
+            System.err.println(ANSI_RED+"\n\nDigite apenas numeros"+ANSI_RESET);
+            Thread.sleep(1000);
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            _init_();
+        }
    }
-
 }
