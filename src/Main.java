@@ -25,7 +25,7 @@ public class Main {
        sc = new Scanner (System.in);
        sc.nextLine ();
        carregar();
-       aleatorio();
+       aleatorio(escolha);
     }
 
     public static void carregar() throws InterruptedException, IOException{
@@ -34,11 +34,11 @@ public class Main {
             String data = "\r" + anim.charAt(i % anim.length()) + " " + i;
             System.out.write(data.getBytes());
             //temporizador de execucao da proxima tarefa
-            Thread.sleep(65);
+            Thread.sleep(40);
         }
     }
 
-    public static void aleatorio() throws InterruptedException, IOException{
+    public static void aleatorio(int escolha) throws InterruptedException, IOException{
         try {
             System.out.println(ANSI_PURPLE+"\n\nTente adivinhar o numero em que estou pensando?\n"+ANSI_RESET);
             random = new Random();
