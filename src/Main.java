@@ -5,7 +5,7 @@ import java.util.Scanner;
  * @author Joao Menezes
  * */ 
 public class Main {
-    private static int numero_aleatorio, escolha, tentativas,timer = 40;
+    private static int numero_aleatorio, escolha, tentativas,delay = 40;
     private static String playAgain = "",iniciar,anim,data;
     private static Scanner sc;
     private static Random random;
@@ -33,7 +33,7 @@ public class Main {
         tentativas = 0;
         Thread.sleep(1000);
         clear();
-        timer = 0;
+        delay = 0;
         _init_();
     }
 
@@ -45,24 +45,24 @@ public class Main {
     }
 
     public static void perguntar() throws InterruptedException, IOException {
-        System.out.print("Gostaria de jogar novamente? (s/n) ");
+        System.out.print("Gostaria de jogar novamente? (y/n) ");
         playAgain = sc.next();
-
-           if(playAgain.toLowerCase().equals("s") || playAgain.toLowerCase().equals("sim"))
+        playAgain.substring(0,1);
+        playAgain = playAgain.substring(0,1);
+           if(playAgain.toLowerCase().equals("s") || playAgain.toLowerCase().equals("y"))
            {  
                jogar_novamente();
            }
-           if(playAgain.toLowerCase().equals("n") || playAgain.toLowerCase().equals("nao") || playAgain.toLowerCase().equals("não")){
+           else if(playAgain.toLowerCase().equals("n")){
                finalizar();
            }
-           while (playAgain.toLowerCase() != "s" || playAgain.toLowerCase() != "n" || playAgain.toLowerCase() != "x") {
-            perguntar();
+           while (playAgain.toLowerCase() != "s" || playAgain.toLowerCase() != "n") {
+           perguntar();
         }
-       
     }
 
     public static void _init_() throws InterruptedException, IOException{
-       if (playAgain.equals("s")) {
+       if (playAgain.equals("s") || playAgain.equals("y")) {
             System.out.println("+-----------------Novo-Jogo-----------------+\n");
            }else{
             System.out.println("+-----------------Bem-Vindo-----------------+\n");
@@ -74,6 +74,7 @@ public class Main {
         carregar();
         aleatorio(escolha);
        }
+       clear();
        _init_();
     }
 
@@ -82,7 +83,7 @@ public class Main {
         for (int i = 0 ; i < 101 ; i++) {
             data = "\r" + anim.charAt(i % anim.length()) + " " + i;
             System.out.write(data.getBytes());
-            Thread.sleep(timer);
+            Thread.sleep(delay);
         }
     }
 
@@ -110,7 +111,7 @@ public class Main {
             System.err.println(ANSI_RED+"\n\nDigite apenas numeros"+ANSI_RESET);
             Thread.sleep(1000);
             clear();
-            timer = 0;
+            delay = 0;
             _init_();
         }
     return escolha;
