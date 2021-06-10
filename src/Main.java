@@ -29,6 +29,23 @@ public class Main {
         }        
     }
 
+    public static void _init_() throws InterruptedException, IOException{
+        if (playAgain.equals("s") || playAgain.equals("y")) {
+             System.out.println("+-----------------Novo-Jogo-----------------+\n");
+            }else{
+             System.out.println("+-----------------Bem-Vindo-----------------+\n");
+            }
+        System.out.print("\tPressione ENTER para Iniciar\n");
+        sc = new Scanner (System.in);
+        iniciar = sc.nextLine ();
+        if (iniciar.equals("")) {
+         carregar();
+         aleatorio(escolha);
+        }
+        clear();
+        _init_();
+     }
+
     public static void jogar_novamente() throws InterruptedException, IOException {
         tentativas = 0;
         Thread.sleep(1000);
@@ -61,23 +78,6 @@ public class Main {
         }
     }
 
-    public static void _init_() throws InterruptedException, IOException{
-       if (playAgain.equals("s") || playAgain.equals("y")) {
-            System.out.println("+-----------------Novo-Jogo-----------------+\n");
-           }else{
-            System.out.println("+-----------------Bem-Vindo-----------------+\n");
-           }
-       System.out.print("\tPressione ENTER para Iniciar\n");
-       sc = new Scanner (System.in);
-       iniciar = sc.nextLine ();
-       if (iniciar.equals("")) {
-        carregar();
-        aleatorio(escolha);
-       }
-       clear();
-       _init_();
-    }
-
     public static void carregar() throws InterruptedException, IOException{
         anim= "|/-\\";
         for (int i = 0 ; i < 101 ; i++) {
@@ -92,6 +92,7 @@ public class Main {
             System.out.println(ANSI_PURPLE+"\n\nTente adivinhar o numero em que estou pensando? (0 - 100)\n"+ANSI_RESET);
             random = new Random();
             numero_aleatorio = random.nextInt(101);
+            System.out.println(numero_aleatorio);
          while(escolha != numero_aleatorio){
              tentativas++;
              System.out.print(">_ ");
