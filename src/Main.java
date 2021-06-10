@@ -48,14 +48,14 @@ public class Main {
         System.out.print("Gostaria de jogar novamente? (s/n) ");
         playAgain = sc.next();
 
-           if(playAgain.toLowerCase().equals("s"))
+           if(playAgain.toLowerCase().equals("s") || playAgain.toLowerCase().equals("sim"))
            {  
                jogar_novamente();
            }
-           if(playAgain.toLowerCase().equals("n")){
+           if(playAgain.toLowerCase().equals("n") || playAgain.toLowerCase().equals("nao") || playAgain.toLowerCase().equals("não")){
                finalizar();
            }
-           while (playAgain.toLowerCase() != "s" || playAgain.toLowerCase() != "n") {
+           while (playAgain.toLowerCase() != "s" || playAgain.toLowerCase() != "n" || playAgain.toLowerCase() != "x") {
             perguntar();
         }
        
@@ -91,6 +91,7 @@ public class Main {
             System.out.println(ANSI_PURPLE+"\n\nTente adivinhar o numero em que estou pensando? (0 - 100)\n"+ANSI_RESET);
             random = new Random();
             numero_aleatorio = random.nextInt(101);
+            System.out.println(numero_aleatorio);
          while(escolha != numero_aleatorio){
              tentativas++;
              System.out.print(">_ ");
