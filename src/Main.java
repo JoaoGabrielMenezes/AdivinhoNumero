@@ -5,8 +5,8 @@ import java.util.Scanner;
  * @author Joao Menezes
  * */ 
 public class Main {
-    private static int numero_aleatorio, escolha, tentativas;
-    private static String playAgain;
+    private static int numero_aleatorio, escolha, tentativas,timer = 40;
+    private static String playAgain = "",iniciar,anim,data;
     private static Scanner sc;
     private static Random random;
     //Cores
@@ -16,36 +16,84 @@ public class Main {
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static void main(String[] args) throws Exception {
+        clear();
+        Thread.sleep(500);
         _init_();
     }
 
+    public static void clear() throws InterruptedException, IOException{
+        if (System.getProperty("os.name").contains("Windows")) {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        }else{
+            Runtime.getRuntime().exec("clear");
+        }        
+    }
+
+    public static void jogar_novamente() throws InterruptedException, IOException {
+        tentativas = 0;
+        Thread.sleep(1000);
+        clear();
+        timer = 0;
+        _init_();
+    }
+
+    public static void finalizar() throws InterruptedException, IOException {
+        System.out.println("Obrigado por jogar"); 
+        Thread.sleep(1000);
+        clear();
+        System.exit(0);
+    }
+
+    public static void perguntar() throws InterruptedException, IOException {
+        System.out.print("Gostaria de jogar novamente? (s/n) ");
+        playAgain = sc.next();
+
+           if(playAgain.toLowerCase().equals("s"))
+           {  
+               jogar_novamente();
+           }
+           if(playAgain.toLowerCase().equals("n")){
+               finalizar();
+           }
+           while (playAgain.toLowerCase() != "s" || playAgain.toLowerCase() != "n") {
+            perguntar();
+        }
+       
+    }
+
     public static void _init_() throws InterruptedException, IOException{
-       System.out.println("+-----------------Bem-Vindo-----------------+\n");
+       if (playAgain.equals("s")) {
+            System.out.println("+-----------------Novo-Jogo-----------------+\n");
+           }else{
+            System.out.println("+-----------------Bem-Vindo-----------------+\n");
+           }
        System.out.print("\tPressione ENTER para Iniciar\n");
        sc = new Scanner (System.in);
-       sc.nextLine ();
-       carregar();
-       aleatorio(escolha);
+       iniciar = sc.nextLine ();
+       if (iniciar.equals("")) {
+        carregar();
+        aleatorio(escolha);
+       }
+       _init_();
     }
 
     public static void carregar() throws InterruptedException, IOException{
-        String anim= "|/-\\";
+        anim= "|/-\\";
         for (int i = 0 ; i < 101 ; i++) {
-            String data = "\r" + anim.charAt(i % anim.length()) + " " + i;
+            data = "\r" + anim.charAt(i % anim.length()) + " " + i;
             System.out.write(data.getBytes());
-            //temporizador de execucao da proxima tarefa
-            Thread.sleep(40);
+            Thread.sleep(timer);
         }
     }
 
-    public static void aleatorio(int escolha) throws InterruptedException, IOException{
+    public static int aleatorio(int escolha) throws InterruptedException, IOException{
         try {
-            System.out.println(ANSI_PURPLE+"\n\nTente adivinhar o numero em que estou pensando?\n"+ANSI_RESET);
+            System.out.println(ANSI_PURPLE+"\n\nTente adivinhar o numero em que estou pensando? (0 - 100)\n"+ANSI_RESET);
             random = new Random();
             numero_aleatorio = random.nextInt(101);
-
          while(escolha != numero_aleatorio){
              tentativas++;
+             System.out.print(">_ ");
              escolha = sc.nextInt();
             if(escolha < numero_aleatorio){
                 System.out.println("Maior que -> "+ANSI_YELLOW+escolha+ANSI_RESET);
@@ -54,29 +102,17 @@ public class Main {
                 System.out.println("Menor que -> "+ANSI_YELLOW+escolha+ANSI_RESET);
              }
              else{
-                 System.out.println(ANSI_GREEN+"\n\tPARABÉNS"+ANSI_RESET+"\nSeu numero de tentativas foi: "+ANSI_GREEN+tentativas+ANSI_RESET);
-                 System.out.println("Gostaria de jogar novamente? (s/n)");
-                 playAgain = sc.next();
-                 if(playAgain.equals("s"))
-                 {  
-                    tentativas = 0;
-                    Thread.sleep(1000);
-                    new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-                    _init_();
-                 }else{
-                    System.out.println("Obrigado por jogar"); 
-                    Thread.sleep(1000);
-                    //limpar o terminal
-                    new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-                    System.exit(0);
-              }
+                 System.out.println(ANSI_GREEN+"\n\tMUITO BEM"+ANSI_RESET+"\nSeu numero de tentativas foi: "+ANSI_GREEN+tentativas+ANSI_RESET);
+                perguntar();
            }
          }
         } catch (Exception e) {  
             System.err.println(ANSI_RED+"\n\nDigite apenas numeros"+ANSI_RESET);
             Thread.sleep(1000);
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            clear();
+            timer = 0;
             _init_();
         }
+    return escolha;
    }
 }
