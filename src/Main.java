@@ -73,7 +73,7 @@ public class Main {
            else if(playAgain.toLowerCase().equals("n")){
                finalizar();
            }
-           while (playAgain.toLowerCase() != "s" || playAgain.toLowerCase() != "n") {
+           while (playAgain.toLowerCase() != "s" && playAgain.toLowerCase() != "n") {
            perguntar();
         }
     }
