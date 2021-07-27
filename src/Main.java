@@ -21,7 +21,7 @@ public class Main {
         _init_();
     }
 
-    public static void clear() throws InterruptedException, IOException{
+    private static void clear() throws InterruptedException, IOException{
         if (System.getProperty("os.name").contains("Windows")) {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         }else{
@@ -29,7 +29,7 @@ public class Main {
         }        
     }
 
-    public static void _init_() throws InterruptedException, IOException{
+    private static void _init_() throws InterruptedException, IOException{
         if (playAgain.equals("s") || playAgain.equals("y")) {
              System.out.println("+-----------------Novo-Jogo-----------------+\n");
             }else{
@@ -46,7 +46,7 @@ public class Main {
         _init_();
      }
 
-    public static void jogar_novamente() throws InterruptedException, IOException {
+    private static void jogar_novamente() throws InterruptedException, IOException {
         tentativas = 0;
         Thread.sleep(1000);
         clear();
@@ -54,14 +54,14 @@ public class Main {
         _init_();
     }
 
-    public static void finalizar() throws InterruptedException, IOException {
+    private static void finalizar() throws InterruptedException, IOException {
         System.out.println("Obrigado por jogar"); 
         Thread.sleep(1000);
         clear();
         System.exit(0);
     }
 
-    public static void perguntar() throws InterruptedException, IOException {
+    private static void perguntar() throws InterruptedException, IOException {
         System.out.print("Gostaria de jogar novamente? (y/n) ");
         playAgain = sc.next();
         playAgain.substring(0,1);
@@ -78,7 +78,7 @@ public class Main {
         }
     }
 
-    public static void carregar() throws InterruptedException, IOException{
+    private static void carregar() throws InterruptedException, IOException{
         anim= "|/-\\";
         for (int i = 0 ; i < 101 ; i++) {
             data = "\r" + anim.charAt(i % anim.length()) + " " + i;
@@ -87,7 +87,7 @@ public class Main {
         }
     }
 
-    public static int aleatorio(int escolha) throws InterruptedException, IOException{
+    private static int aleatorio(int escolha) throws InterruptedException, IOException{
         try {
             System.out.println(ANSI_PURPLE+"\n\nTente adivinhar o numero em que estou pensando? (0 - 100)\n"+ANSI_RESET);
             random = new Random();
