@@ -92,7 +92,7 @@ public class Main {
             System.out.println(ANSI_PURPLE+"\n\nTente adivinhar o numero em que estou pensando? (0 - 100)\n"+ANSI_RESET);
             random = new Random();
             numero_aleatorio = random.nextInt(101);
-            System.out.println(numero_aleatorio);
+            //System.out.println(numero_aleatorio);
          while(escolha != numero_aleatorio){
              tentativas++;
              System.out.print(">_ ");
