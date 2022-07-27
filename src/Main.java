@@ -5,10 +5,10 @@ import java.util.Scanner;
  * @author Joao Menezes
  * */ 
 public class Main {
-    private static int numero_aleatorio, escolha, tentativas,delay = 40;
-    private static String playAgain = "",iniciar,anim,data;
+    private static int choice;
+    private static int attempts;
+    private static int delay = 40;
     private static Scanner sc;
-    private static Random random;
     //Cores
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
@@ -30,91 +30,83 @@ public class Main {
     }
 
     private static void _init_() throws InterruptedException, IOException{
-        if (playAgain.equals("s") || playAgain.equals("y")) {
-             System.out.println("+-----------------Novo-Jogo-----------------+\n");
-            }else{
-             System.out.println("+-----------------Bem-Vindo-----------------+\n");
-            }
-        System.out.print("\tPressione ENTER para Iniciar\n");
+        attempts = 0;
+        System.out.println("+-----------------Well-Come-----------------+\n");
+        System.out.print("\tPress ENTER to start\n");
         sc = new Scanner (System.in);
-        iniciar = sc.nextLine ();
-        if (iniciar.equals("")) {
-         carregar();
-         aleatorio(escolha);
-        }
-        clear();
-        _init_();
+        String start = sc.nextLine();
+        if (start.equals(""))
+         Load();
      }
 
-    private static void jogar_novamente() throws InterruptedException, IOException {
-        tentativas = 0;
+    private static void PlayAgain() throws InterruptedException, IOException {
         Thread.sleep(1000);
         clear();
         delay = 0;
         _init_();
     }
 
-    private static void finalizar() throws InterruptedException, IOException {
-        System.out.println("Obrigado por jogar"); 
+    private static void EndGame() throws InterruptedException, IOException {
+        System.out.println("Thanks for playing!");
         Thread.sleep(1000);
         clear();
         System.exit(0);
     }
 
-    private static void perguntar() throws InterruptedException, IOException {
-        System.out.print("Gostaria de jogar novamente? (y/n) ");
-        playAgain = sc.next();
-        playAgain.substring(0,1);
-        playAgain = playAgain.substring(0,1);
-           if(playAgain.toLowerCase().equals("s") || playAgain.toLowerCase().equals("y"))
-           {  
-               jogar_novamente();
-           }
-           else if(playAgain.toLowerCase().equals("n")){
-               finalizar();
-           }
-           while (playAgain.toLowerCase() != "s" && playAgain.toLowerCase() != "n") {
-           perguntar();
+    private static void Ask() throws InterruptedException, IOException {
+        System.out.print("Would like to play again? (y/n) ");
+        String playAgain = sc.next();
+        switch (playAgain.toLowerCase()) {
+            case "s", "y" -> PlayAgain();
+            case "n" -> EndGame();
+            default -> {
+                System.out.println("Invalid option");
+                Ask();
+            }
         }
+           while (!playAgain.equalsIgnoreCase("s") && !playAgain.equalsIgnoreCase("n"))
+            Ask();
+
     }
 
-    private static void carregar() throws InterruptedException, IOException{
-        anim= "|/-\\";
+    private static void Load() throws InterruptedException, IOException{
+        String anim = "|/-\\";
         for (int i = 0 ; i < 101 ; i++) {
-            data = "\r" + anim.charAt(i % anim.length()) + " " + i;
+            String data = "\r" + anim.charAt(i % anim.length()) + " " + i;
             System.out.write(data.getBytes());
             Thread.sleep(delay);
         }
+        clear();
+        Game();
     }
 
-    private static int aleatorio(int escolha) throws InterruptedException, IOException{
+    private static void Game() throws InterruptedException, IOException{
         try {
-            System.out.println(ANSI_PURPLE+"\n\nTente adivinhar o numero em que estou pensando? (0 - 100)\n"+ANSI_RESET);
-            random = new Random();
-            numero_aleatorio = random.nextInt(101);
-            //System.out.println(numero_aleatorio);
-         while(escolha != numero_aleatorio){
-             tentativas++;
+            System.out.println(ANSI_PURPLE+"\n\nTry think what number I'm thinking? (0 - 100)\n"+ANSI_RESET);
+            int random = new Random().nextInt(101);
+            //System.out.println(random);
+         while(choice != random){
+
+             attempts++;
              System.out.print(">_ ");
-             escolha = sc.nextInt();
-            if(escolha < numero_aleatorio){
-                System.out.println("Maior que -> "+ANSI_YELLOW+escolha+ANSI_RESET);
+             choice = sc.nextInt();
+            if(choice < random){
+                System.out.println("Bigger than -> "+ANSI_YELLOW+ choice +ANSI_RESET);
              }
-             else if(escolha > numero_aleatorio){
-                System.out.println("Menor que -> "+ANSI_YELLOW+escolha+ANSI_RESET);
+             else if(choice > random){
+                System.out.println("Lower than -> "+ANSI_YELLOW+ choice +ANSI_RESET);
              }
              else{
-                 System.out.println(ANSI_GREEN+"\n\tMUITO BEM"+ANSI_RESET+"\nSeu numero de tentativas foi: "+ANSI_GREEN+tentativas+ANSI_RESET);
-                perguntar();
+                System.out.println(ANSI_GREEN+"\n\tGREAT"+ANSI_RESET+"\nYou attempts: "+ANSI_GREEN+ attempts +ANSI_RESET);
+                Ask();
            }
          }
         } catch (Exception e) {  
-            System.err.println(ANSI_RED+"\n\nDigite apenas numeros"+ANSI_RESET);
+            System.err.println(ANSI_RED+"\n\nType only numbers"+ANSI_RESET);
             Thread.sleep(1000);
             clear();
             delay = 0;
             _init_();
         }
-    return escolha;
-   }
+    }
 }
